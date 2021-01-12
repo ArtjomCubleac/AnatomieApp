@@ -15,19 +15,21 @@ import kotlinx.coroutines.withContext
 
 class HomeViewModel(application: Application) : AndroidViewModel(application){
 
-    private val ioScope = CoroutineScope(Dispatchers.IO)
+    private val mainScope = CoroutineScope(Dispatchers.Main)
     private val repository = ResultsRepository(application.applicationContext)
 
     val results: LiveData<List<Results>> = repository.getAllResults()
 
 
     fun updateResult(number: Int, result: Boolean) {
+
         val newResult = Results(
-            quizNumber = number,
-            quizProgress = result
+            quizNumber = number +1 ,
+            quizProgress = result,
+            id = number.toLong() + 1,
         )
 
-        ioScope.launch {
+        mainScope.launch {
             withContext(Dispatchers.IO) {
                 repository.updateQuiz(newResult)
             }

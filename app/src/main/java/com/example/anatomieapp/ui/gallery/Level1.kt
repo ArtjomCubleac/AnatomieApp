@@ -73,7 +73,6 @@ class Level1 : Fragment() {
                 )
             )
         }
-
         Answer().attachToRecyclerView(rvAnswers)
         setRandomQuestion()
     }
@@ -82,7 +81,6 @@ class Level1 : Fragment() {
 
             //Creates touchhelper which enables swiping left or right.
             val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)  {
-
                 // Enables or Disables the ability to move items up and down.
                 override fun onMove(
                     recyclerView: RecyclerView,
@@ -91,33 +89,24 @@ class Level1 : Fragment() {
                 ): Boolean {
                     return false
                 }
-
                 // Callback triggered when a user swiped an item.
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val position = viewHolder.adapterPosition
-
                     if (position == quizIndex) {
                         setRandomQuestion()
-                        viewModel.updateResult(1,true)
-
-                        Log.d("HOI", viewModel.results.toString())
-
-
+                        viewModel.updateResult(position  ,true)
                     } else {
                     Snackbar.make(questionNumber, "FOUT!", Snackbar.LENGTH_SHORT)
                          .show()
                     }
                     quizzesAdapter.notifyDataSetChanged()
-
                 }
-
             }
             return ItemTouchHelper(callback)
         }
 
     private fun setRandomQuestion() {
       val quizInt = (Random.nextInt(0,quizzes.size))
-
         if(quizDone.contains(quizzes.get(quizInt))){
             setRandomQuestion()
         } else {
@@ -125,7 +114,6 @@ class Level1 : Fragment() {
             binding.questionNumber.text = quizzes.get(quizIndex).questionText.toString()
             quizDone.add(quizzes.get(quizIndex))
         }
-
     }
 
 }
