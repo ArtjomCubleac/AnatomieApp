@@ -6,39 +6,118 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.anatomieapp.Quizzes.Quiz
 import com.example.anatomieapp.Quizzes.Quizzes
-import com.example.anatomieapp.R
+import com.example.anatomieapp.Quizzes.QuizzesAdapter
+
+import com.example.anatomieapp.databinding.FragmentLevel1Binding
+import com.google.android.material.snackbar.Snackbar
+
 import kotlinx.android.synthetic.main.fragment_level1.*
+import kotlin.random.Random
+
+class Level1 : Fragment() {
 
 
-private val quizzes = arrayListOf<Quizzes>()
+    private val quizzes = arrayListOf<Quiz>()
 
-private val questionCounter = 0
-private var questionCountTotal = 0
-private var currentQuestion = 0
+    private val quizzesAdapter = QuizzesAdapter(quizzes)
+    private lateinit var binding: FragmentLevel1Binding
 
-class GalleryFragment : Fragment() {
+
+    private var quizIndex = 0
+    private val quizDone = arrayListOf<Quiz>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_level1, container, false)
+        binding = FragmentLevel1Binding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        QuizLogic()
-
+        initViews()
     }
 
 
-    private fun QuizLogic(){
-        questionCountTotal = Quizzes.LEVEL1QUESTIONS.size;
-        Quizzes.LEVEL1QUESTIONS.shuffle()
+    private fun initViews() {
+        //Initialize the recycler view with a linear layout manager, adapter
+        binding.rvAnswers.layoutManager =
+            LinearLayoutManager(
+                this.context, RecyclerView.VERTICAL, false
+            )
+        binding.rvAnswers.adapter = quizzesAdapter
+        binding.rvAnswers.addItemDecoration(
+            DividerItemDecoration(
+                this.context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
+
+        for (i in Quizzes.LEVEL1QUESTIONS.indices) {
+            quizzes.add(
+                Quiz(
+                    Quizzes.LEVEL1QUESTIONS[i],
+                    Quizzes.LEVEL1ANSWERS[i]
+                )
+            )
+        }
+
+        Answer().attachToRecyclerView(rvAnswers)
+        setRandomQuestion()
     }
 
+     private fun Answer(): ItemTouchHelper {
 
+            //Creates touchhelper which enables swiping left or right.
+            val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)  {
+
+                // Enables or Disables the ability to move items up and down.
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                // Callback triggered when a user swiped an item.
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val position = viewHolder.adapterPosition
+
+
+                    if (position == quizIndex) {
+                        setRandomQuestion()
+                    } else {
+                    Snackbar.make(questionNumber, "FOUT!", Snackbar.LENGTH_SHORT)
+                         .show()
+                    }
+                    quizzesAdapter.notifyDataSetChanged()
+
+                }
+
+            }
+            return ItemTouchHelper(callback)
+        }
+
+    private fun setRandomQuestion() {
+      val quizInt = (Random.nextInt(0,quizzes.size))
+
+        if(quizDone.contains(quizzes.get(quizInt))){
+            setRandomQuestion()
+        } else {
+            quizIndex = quizInt
+            binding.questionNumber.text = quizzes.get(quizIndex).questionText.toString()
+            quizDone.add(quizzes.get(quizIndex))
+        }
+
+    }
 
 }
+
