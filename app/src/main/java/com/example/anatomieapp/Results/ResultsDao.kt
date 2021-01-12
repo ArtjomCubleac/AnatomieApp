@@ -1,12 +1,14 @@
 package com.example.anatomieapp.Quizzes
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
 interface ResultsDao {
 
     @Query("SELECT * FROM quizTable")
-    suspend fun getAllQuizzes(): List<Results>
+     fun getAllResults(): LiveData<List<Results>>
+
 
     @Insert
     suspend fun insertQuiz(quiz: Results)
@@ -16,8 +18,9 @@ interface ResultsDao {
 
     @Update
     suspend fun updateQuiz(quiz: Results)
+    
 
     @Query("DELETE FROM quizTable")
-    suspend fun deleteAllQuizzes()
+    suspend fun deleteAllResults()
 
 }

@@ -1,6 +1,9 @@
 package com.example.anatomieapp.ui.home
 
 import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,12 +20,13 @@ import com.example.anatomieapp.databinding.FragmentHomeBinding
 
 
 
-class HomeFragment : Fragment() {
+class HomeFragment() : Fragment() {
 
     private  val homeViewModel: HomeViewModel by viewModels()
     private val results = arrayListOf<Results>()
     private lateinit var binding: FragmentHomeBinding
     private val resultsAdapter = ResultsAdapter(results)
+
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -32,7 +36,6 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,10 +59,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeResults() {
-        homeViewModel.results.observe(viewLifecycleOwner, Observer { results ->
+        homeViewModel.results.observe(viewLifecycleOwner, { results ->
             this.results.clear()
             this.results.addAll(results)
             resultsAdapter.notifyDataSetChanged()
         })
     }
+
 }

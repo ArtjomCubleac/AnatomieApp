@@ -1,8 +1,7 @@
 package com.example.anatomieapp.Quizzes
 
 import android.content.Context
-
-
+import androidx.lifecycle.LiveData
 
 class ResultsRepository(context: Context) {
 
@@ -13,8 +12,9 @@ class ResultsRepository(context: Context) {
         resultsDao = quizRoomDatabase!!.quizDao()
     }
 
-    suspend fun getAllQuizzes(): List<Results> {
-        return resultsDao.getAllQuizzes()
+     fun getAllResults(): LiveData<List<Results>> {
+        return resultsDao.getAllResults()
+
     }
 
     suspend fun insertQuiz(quiz: Results) {
@@ -30,8 +30,8 @@ class ResultsRepository(context: Context) {
         resultsDao.updateQuiz(quiz)
     }
 
-    suspend fun deleteAllQuizzes() {
-        resultsDao.deleteAllQuizzes()
+    suspend fun deleteAllResults() {
+        resultsDao.deleteAllResults()
     }
 
 

@@ -2,10 +2,12 @@ package com.example.anatomieapp.ui.gallery
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +17,7 @@ import com.example.anatomieapp.Quizzes.Quizzes
 import com.example.anatomieapp.Quizzes.QuizzesAdapter
 
 import com.example.anatomieapp.databinding.FragmentLevel1Binding
+import com.example.anatomieapp.ui.home.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
 
 import kotlinx.android.synthetic.main.fragment_level1.*
@@ -27,6 +30,8 @@ class Level1 : Fragment() {
 
     private val quizzesAdapter = QuizzesAdapter(quizzes)
     private lateinit var binding: FragmentLevel1Binding
+
+    private val viewModel: HomeViewModel by viewModels()
 
 
     private var quizIndex = 0
@@ -91,9 +96,13 @@ class Level1 : Fragment() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val position = viewHolder.adapterPosition
 
-
                     if (position == quizIndex) {
                         setRandomQuestion()
+                        viewModel.updateResult(1,true)
+
+                        Log.d("HOI", viewModel.results.toString())
+
+
                     } else {
                     Snackbar.make(questionNumber, "FOUT!", Snackbar.LENGTH_SHORT)
                          .show()

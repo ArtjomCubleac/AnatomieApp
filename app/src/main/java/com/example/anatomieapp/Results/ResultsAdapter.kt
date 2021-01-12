@@ -5,16 +5,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anatomieapp.R
-import kotlinx.android.synthetic.main.item_answer.view.*
+
+import com.example.anatomieapp.databinding.ItemResultBinding
+
+
 
 class ResultsAdapter(private val results: List<Results>) :
         RecyclerView.Adapter<ResultsAdapter.ViewHolder>() {
-
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun databind(quiz: Results) {
+        private val binding = ItemResultBinding.bind(itemView)
 
+        fun databind(result: Results) {
+            binding.itemAnswer.text = result.quizNumber.toString()
+            binding.itemTrueorFalse.text = result.quizProgress.toString()
         }
 
     }
@@ -24,7 +28,7 @@ class ResultsAdapter(private val results: List<Results>) :
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultsAdapter.ViewHolder {
         return ViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_answer, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.item_result, parent, false)
         )
     }
 
