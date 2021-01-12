@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anatomieapp.R
-import kotlinx.android.synthetic.main.item_answer.view.*
+import com.example.anatomieapp.databinding.FragmentLevel1Binding
 
 class QuizzesAdapter(private val quizzes: List<Quizzes>) :
         RecyclerView.Adapter<QuizzesAdapter.ViewHolder>() {
@@ -13,8 +13,10 @@ class QuizzesAdapter(private val quizzes: List<Quizzes>) :
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        val binding = FragmentLevel1Binding.bind(itemView)
+
         fun databind(quiz: Quizzes) {
-            itemView.answer_text.text = quiz.questionAnswer
+
         }
 
     }
