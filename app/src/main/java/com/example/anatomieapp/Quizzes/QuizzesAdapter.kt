@@ -5,17 +5,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anatomieapp.R
-import com.example.anatomieapp.databinding.FragmentLevel1Binding
+import com.example.anatomieapp.databinding.ItemAnswerBinding
 
-class QuizzesAdapter(private val quizzes: List<Quizzes>) :
+class QuizzesAdapter(private val quizzes: List<Quiz>) :
         RecyclerView.Adapter<QuizzesAdapter.ViewHolder>() {
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val binding = FragmentLevel1Binding.bind(itemView)
+        val binding = ItemAnswerBinding.bind(itemView)
 
-        fun databind(quiz: Quizzes) {
+        fun databind(quiz: Quiz) {
+                binding.itemAnswer.text = quiz.questionAnswer
 
         }
 
