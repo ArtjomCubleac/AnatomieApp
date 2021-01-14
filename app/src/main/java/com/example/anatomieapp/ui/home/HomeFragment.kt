@@ -1,5 +1,6 @@
 package com.example.anatomieapp.ui.home
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
@@ -39,6 +40,7 @@ class HomeFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.root.setBackgroundColor(Color.WHITE);
         initViews()
         observeResults()
     }

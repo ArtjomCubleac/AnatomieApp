@@ -1,7 +1,11 @@
 package com.example.anatomieapp.ui.gallery
 
 
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +25,7 @@ import com.example.anatomieapp.ui.home.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
 
 import kotlinx.android.synthetic.main.fragment_level1.*
+import java.util.*
 import kotlin.random.Random
 
 class Level1 : Fragment() {
@@ -73,6 +78,7 @@ class Level1 : Fragment() {
                 )
             )
         }
+
         Answer().attachToRecyclerView(rvAnswers)
         setRandomQuestion()
     }
@@ -95,6 +101,10 @@ class Level1 : Fragment() {
                     if (position == quizIndex) {
                         setRandomQuestion()
                         viewModel.updateResult(position  ,true)
+                        Snackbar.make(questionNumber, "HET JUISTE ANTWOORD is" + quizzes.get(position).toString(), Snackbar.LENGTH_LONG)
+                            .show()
+
+                        vibratePhone()
                     } else {
                     Snackbar.make(questionNumber, "FOUT!", Snackbar.LENGTH_SHORT)
                          .show()
@@ -114,6 +124,16 @@ class Level1 : Fragment() {
             binding.questionNumber.text = quizzes.get(quizIndex).questionText.toString()
             quizDone.add(quizzes.get(quizIndex))
         }
+    }
+
+    fun Fragment.vibratePhone() {
+        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createOneShot(400, 255))
+        } else {
+            vibrator.vibrate(200)
+        }
+
     }
 
 }

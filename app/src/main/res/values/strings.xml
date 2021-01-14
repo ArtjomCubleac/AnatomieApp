@@ -10,4 +10,8 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="welcome_text">Welkom bij de Anatomie App!</string>
+    <string name="splash_screen_info_text">Gemaakt door AC App Development 2021</string>
+    <string name="splash_screen_welcome_text">Dé leukste manier om het menselijk lichaam te oefenen!</string>
+    <string name="anatomie_app_name_splash">ANATOMIE APP</string>
 </resources>
