@@ -2,7 +2,7 @@
     <string name="app_name">AnatomieApp</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Anatomie App</string>
+    <string name="nav_header_title">Aan de slag!</string>
     <string name="nav_header_subtitle">Zie hieronder alle levels</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
@@ -14,4 +14,7 @@
     <string name="splash_screen_info_text">Gemaakt door AC App Development 2021</string>
     <string name="splash_screen_welcome_text">Dé leukste manier om het menselijk lichaam te oefenen!</string>
     <string name="anatomie_app_name_splash">ANATOMIE APP</string>
+    <string name="level_1_menu">Level 1</string>
+    <string name="level_2_menu">Level 2</string>
+    <string name="wat_is_nummer">Wat is nummer</string>
 </resources>
