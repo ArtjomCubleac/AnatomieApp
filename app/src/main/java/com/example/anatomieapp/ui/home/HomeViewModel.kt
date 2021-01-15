@@ -1,6 +1,7 @@
 package com.example.anatomieapp.ui.home
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.example.anatomieapp.Quizzes.Results
@@ -20,12 +21,28 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     fun updateMotivation(toString: String): String {
         return toString
     }
-    fun updateResult(number: Int, result: Boolean) {
+    fun updateResultLevel1(number: Int, result: Boolean) {
         val newResult = Results(
                 quizNumber = number + 1,
                 quizProgress = result,
                 id = number.toLong() + 1,
         )
+        Log.d("Level2", newResult.toString())
+        mainScope.launch {
+            withContext(Dispatchers.IO) {
+                repository.updateQuiz(newResult)
+            }
+        }
+    }
+
+    fun updateResultLevel2(number: Int, result: Boolean) {
+        val newResult = Results(
+            quizNumber = number + 1,
+            quizProgress = result,
+            id = number.toLong() + 2,
+        )
+
+        Log.d("Level2", newResult.toString())
         mainScope.launch {
             withContext(Dispatchers.IO) {
                 repository.updateQuiz(newResult)

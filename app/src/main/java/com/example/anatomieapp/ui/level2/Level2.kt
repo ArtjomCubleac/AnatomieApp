@@ -88,7 +88,7 @@ class Level2 : Fragment() {
                 val position = viewHolder.adapterPosition
                 if (position == quizIndex) {
                     setRandomQuestion()
-                    viewModel.updateResult(position  ,true)
+                    viewModel.updateResultLevel2(position  ,true)
 
                     Snackbar.make(questionNumber, "Goedzo! Ga zo door!" + quizzes.get(position).toString(), Snackbar.LENGTH_LONG)
                             .show()
@@ -102,8 +102,6 @@ class Level2 : Fragment() {
         }
         return ItemTouchHelper(callback)
     }
-
-
 
     private fun setRandomQuestion() {
         val quizInt = (Random.nextInt(0,quizzes.size))
