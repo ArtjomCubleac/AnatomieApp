@@ -53,19 +53,3 @@ abstract class ResultsRoomDatabase : RoomDatabase() {
         }
     }
 }
-
-
-//            fun getDatabase(context: Context): ResultsRoomDatabase? {
-//            if (resultsRoomDatabaseInstance == null) {
-//                synchronized(ResultsRoomDatabase::class.java) {
-//                    if (resultsRoomDatabaseInstance == null) {
-//                        resultsRoomDatabaseInstance = Room.databaseBuilder(
-//                            context.applicationContext,
-//                            ResultsRoomDatabase::class.java, DATABASE_NAME
-//                        )
-//                            .build()
-//                    }
-//                }
-//            }
-//            return resultsRoomDatabaseInstance
-//        }

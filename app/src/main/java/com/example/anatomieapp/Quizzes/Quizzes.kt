@@ -7,7 +7,7 @@ data class Quizzes(
 ){
 
 companion object {
-    //Questions for the quiz
+    //Questions Level 2
     val LEVEL1QUESTIONS = intArrayOf(
        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
     )
@@ -29,6 +29,30 @@ companion object {
         "sternum",
         "tibia",
         "ulna",
+    )
+
+    //Questions Level 2
+    val LEVEL2QUESTIONS = intArrayOf(
+            1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+    )
+
+    //Answers for the quiz
+    val LEVEL2ANSWERS =  arrayOf(
+            "clavicle",
+            "femur",
+            "fibula",
+            "pelvic girdle",
+            "mandible",
+            "humerus",
+            "pubis",
+            "patella",
+            "radius",
+            "rib cage",
+            "sacrum",
+            "skull",
+            "sternum",
+            "tibia",
+            "ulna",
     )
 }
 
