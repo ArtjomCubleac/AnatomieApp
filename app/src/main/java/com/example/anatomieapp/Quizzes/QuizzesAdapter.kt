@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.anatomieapp.R
 import com.example.anatomieapp.databinding.ItemAnswerBinding
 
-class QuizzesAdapter(private val quizzes: List<Quiz>) :
+class QuizzesAdapter(private val quizzes: List<Quiz>, private val clickListener: (Quiz) -> Unit) :
         RecyclerView.Adapter<QuizzesAdapter.ViewHolder>() {
 
 
@@ -15,11 +15,10 @@ class QuizzesAdapter(private val quizzes: List<Quiz>) :
 
         val binding = ItemAnswerBinding.bind(itemView)
 
-        fun databind(quiz: Quiz) {
+        fun databind(quiz: Quiz, clickListener: (Quiz) -> Unit) {
                 binding.itemAnswer.text = quiz.questionAnswer
-
+                itemView.setOnClickListener {clickListener(quiz)}
         }
-
     }
 
     /**
@@ -42,8 +41,9 @@ class QuizzesAdapter(private val quizzes: List<Quiz>) :
      * Called by RecyclerView to display the data at the specified position.
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.databind(quizzes[position])
+        holder.databind(quizzes[position],clickListener)
     }
 
 
 }
+

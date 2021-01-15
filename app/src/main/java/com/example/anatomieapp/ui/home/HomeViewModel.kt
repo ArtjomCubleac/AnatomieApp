@@ -1,11 +1,8 @@
 package com.example.anatomieapp.ui.home
 
 import android.app.Application
-import android.provider.ContactsContract
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.anatomieapp.Quizzes.Results
 import com.example.anatomieapp.Quizzes.ResultsRepository
 import kotlinx.coroutines.CoroutineScope
@@ -20,22 +17,20 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
 
     val results: LiveData<List<Results>> = repository.getAllResults()
 
-
+    fun updateMotivation(toString: String): String {
+        return toString
+    }
     fun updateResult(number: Int, result: Boolean) {
-
         val newResult = Results(
-            quizNumber = number +1 ,
-            quizProgress = result,
-            id = number.toLong() + 1,
+                quizNumber = number + 1,
+                quizProgress = result,
+                id = number.toLong() + 1,
         )
-
         mainScope.launch {
             withContext(Dispatchers.IO) {
                 repository.updateQuiz(newResult)
             }
         }
     }
-
-
 
 }

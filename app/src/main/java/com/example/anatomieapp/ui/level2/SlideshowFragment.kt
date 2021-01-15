@@ -1,4 +1,4 @@
-package com.example.anatomieapp.ui.slideshow
+package com.example.anatomieapp.ui.level2
 
 import android.os.Bundle
 import android.view.LayoutInflater

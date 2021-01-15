@@ -1,4 +1,4 @@
-package com.example.anatomieapp.ui.gallery
+package com.example.anatomieapp.ui.level1
 
 
 import android.content.Context
@@ -6,7 +6,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,20 +24,14 @@ import com.example.anatomieapp.ui.home.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
 
 import kotlinx.android.synthetic.main.fragment_level1.*
-import java.util.*
 import kotlin.random.Random
 
 class Level1 : Fragment() {
 
-
     private val quizzes = arrayListOf<Quiz>()
-
-    private val quizzesAdapter = QuizzesAdapter(quizzes)
+    private val quizzesAdapter = QuizzesAdapter(quizzes) { quiz : Quiz-> partItemClicked(quiz) }
     private lateinit var binding: FragmentLevel1Binding
-
     private val viewModel: HomeViewModel by viewModels()
-
-
     private var quizIndex = 0
     private val quizDone = arrayListOf<Quiz>()
 
@@ -78,13 +71,11 @@ class Level1 : Fragment() {
                 )
             )
         }
-
         Answer().attachToRecyclerView(rvAnswers)
         setRandomQuestion()
     }
 
      private fun Answer(): ItemTouchHelper {
-
             //Creates touchhelper which enables swiping left or right.
             val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)  {
                 // Enables or Disables the ability to move items up and down.
@@ -101,12 +92,12 @@ class Level1 : Fragment() {
                     if (position == quizIndex) {
                         setRandomQuestion()
                         viewModel.updateResult(position  ,true)
-                        Snackbar.make(questionNumber, "HET JUISTE ANTWOORD is" + quizzes.get(position).toString(), Snackbar.LENGTH_LONG)
-                            .show()
 
+                        Snackbar.make(questionNumber, "Goedzo! Ga zo door!" + quizzes.get(position).toString(), Snackbar.LENGTH_LONG)
+                            .show()
                         vibratePhone()
                     } else {
-                    Snackbar.make(questionNumber, "FOUT!", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(questionNumber, "Fout! Probeer het nog eens!", Snackbar.LENGTH_SHORT)
                          .show()
                     }
                     quizzesAdapter.notifyDataSetChanged()
@@ -115,9 +106,11 @@ class Level1 : Fragment() {
             return ItemTouchHelper(callback)
         }
 
-    private fun setRandomQuestion() {
+
+
+private fun setRandomQuestion() {
       val quizInt = (Random.nextInt(0,quizzes.size))
-        if(quizDone.contains(quizzes.get(quizInt))){
+        if(quizDone.contains(quizzes[quizInt])){
             setRandomQuestion()
         } else {
             quizIndex = quizInt
@@ -133,8 +126,13 @@ class Level1 : Fragment() {
         } else {
             vibrator.vibrate(200)
         }
-
     }
 
+    private fun partItemClicked(quiz: Quiz) {
+        Snackbar.make(questionNumber, "Swipe naar links of naar rechts, als je denkt dat het antwoord goed is!", Snackbar.LENGTH_SHORT)
+            .show()
+    }
 }
+
+
 

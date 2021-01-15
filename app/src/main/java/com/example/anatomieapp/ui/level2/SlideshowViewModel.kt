@@ -1,4 +1,4 @@
-package com.example.anatomieapp.ui.slideshow
+package com.example.anatomieapp.ui.level2
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

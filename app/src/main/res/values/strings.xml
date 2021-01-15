@@ -17,4 +17,7 @@
     <string name="level_1_menu">Level 1</string>
     <string name="level_2_menu">Level 2</string>
     <string name="wat_is_nummer">Wat is nummer</string>
+    <string name="homescreen_subtitle">Oefen je kennis van het menselijke lichaam!</string>
+    <string name="motivation1">Je moet nog beginnen, ga naar level 1!</string>
+    <string name="motivation2">Goed op weg! Ga zo door!</string>
 </resources>
