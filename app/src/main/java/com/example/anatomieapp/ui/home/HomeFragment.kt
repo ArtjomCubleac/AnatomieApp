@@ -1,6 +1,7 @@
 package com.example.anatomieapp.ui.home
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.Color
@@ -35,10 +36,10 @@ class HomeFragment() : Fragment(), Observer {
         super.onViewCreated(view, savedInstanceState)
         binding.root.setBackgroundColor(Color.WHITE);
         initViews()
+
     }
 
     private fun initViews() {
-
         val fab: View = binding.floatingActionButton
         fab.setOnClickListener { view ->
             // build alert dialog
