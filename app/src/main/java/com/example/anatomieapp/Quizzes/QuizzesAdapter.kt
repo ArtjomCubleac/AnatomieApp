@@ -8,7 +8,7 @@ import com.example.anatomieapp.R
 import com.example.anatomieapp.databinding.ItemAnswerBinding
 
 class QuizzesAdapter(private val quizzes: List<Question>, private val clickListener: (Question) -> Unit) :
-        RecyclerView.Adapter<QuizzesAdapter.ViewHolder>() {
+    RecyclerView.Adapter<QuizzesAdapter.ViewHolder>() {
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -16,8 +16,8 @@ class QuizzesAdapter(private val quizzes: List<Question>, private val clickListe
         val binding = ItemAnswerBinding.bind(itemView)
 
         fun databind(quiz: Question, clickListener: (Question) -> Unit) {
-                binding.itemAnswer.text = quiz.answer
-                itemView.setOnClickListener {clickListener(quiz)}
+            binding.itemAnswer.text = quiz.answer
+            itemView.setOnClickListener {clickListener(quiz)}
         }
     }
 
@@ -26,7 +26,7 @@ class QuizzesAdapter(private val quizzes: List<Question>, private val clickListe
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuizzesAdapter.ViewHolder {
         return ViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_answer, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_answer, parent, false)
         )
     }
 

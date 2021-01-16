@@ -92,11 +92,11 @@ class Level1 : Fragment() {
                     val position = viewHolder.adapterPosition
                     if (position == quizIndex) {
                         setRandomQuestion()
-                        currentLevel.questions.get(position).done = true
-                        LevelsViewModel.updateQuestion(currentLevel.questions.get(position), currentLevel.id)
+                        currentLevel.questions[position].done = true
+                        LevelsViewModel.updateQuestion(currentLevel.questions[position], currentLevel.id)
                         currentLevel.progress += ceil( 100.0 /currentLevel.questions.size).toInt()
                         LevelsViewModel.updateLevel(currentLevel)
-                        Snackbar.make(questionNumber, "Goedzo! Ga zo door!" + currentLevel.questions.get(position).toString(), Snackbar.LENGTH_LONG)
+                        Snackbar.make(questionNumber, "Goedzo! Ga zo door!" + currentLevel.questions[position].toString(), Snackbar.LENGTH_LONG)
                             .show()
                         vibratePhone()
                     } else {
@@ -124,8 +124,8 @@ private fun setRandomQuestion() {
             setRandomQuestion()
         } else {
             quizIndex = quizInt
-            binding.questionNumber.text =  currentLevel.questions.get(quizIndex).question.toString()
-            quizDone.add(currentLevel.questions.get(quizIndex))
+            binding.questionNumber.text =  currentLevel.questions[quizIndex].question.toString()
+            quizDone.add(currentLevel.questions[quizIndex])
         }
     }
 

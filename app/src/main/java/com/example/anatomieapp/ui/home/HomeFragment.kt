@@ -40,7 +40,7 @@ class HomeFragment() : Fragment(), Observer {
     }
 
     private fun initViews() {
-        val fab: View = binding.floatingActionButton
+        val fab: View = binding.deleteAll
         fab.setOnClickListener { view ->
             // build alert dialog
             val dialogBuilder = AlertDialog.Builder(this.context)

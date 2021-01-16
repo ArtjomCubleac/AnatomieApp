@@ -14,9 +14,9 @@ class Question  (snapshot: DataSnapshot?) : Serializable {
     init {
         try {
             val data:HashMap<String, Any> = snapshot!!.value as HashMap<String, Any>
-            question = data.get("question") as Long
-            answer = data.get("answer") as String
-            done = data.get("done") as Boolean
+            question = data["question"] as Long
+            answer = data["answer"] as String
+            done = data["done"] as Boolean
          } catch (e:Exception){
 
         }
