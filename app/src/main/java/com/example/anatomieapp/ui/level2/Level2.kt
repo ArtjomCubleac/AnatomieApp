@@ -1,40 +1,49 @@
 package com.example.anatomieapp.ui.level2
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.anatomieapp.Quizzes.Quiz
-import com.example.anatomieapp.Quizzes.Quizzes
-import com.example.anatomieapp.Quizzes.QuizzesAdapter
+import com.example.anatomieapp.Quizzes.*
+import com.example.anatomieapp.R
+import com.example.anatomieapp.databinding.FragmentLevel1Binding
 import com.example.anatomieapp.databinding.FragmentLevel2Binding
-import com.example.anatomieapp.ui.home.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_level2.*
+import kotlinx.android.synthetic.main.fragment_level2.questionNumber
+import kotlinx.android.synthetic.main.fragment_level2.rvAnswers
+import kotlin.math.ceil
 import kotlin.random.Random
+
+
+
 
 class Level2 : Fragment() {
 
-    private val quizzes = arrayListOf<Quiz>()
-    private val quizzesAdapter = QuizzesAdapter(quizzes) { quiz : Quiz -> partItemClicked(quiz) }
+    private val quizzes = arrayListOf<Question>()
     private lateinit var binding: FragmentLevel2Binding
-    private val viewModel: HomeViewModel by viewModels()
     private var quizIndex = 0
-    private val quizDone = arrayListOf<Quiz>()
+    private val quizDone = arrayListOf<Question>()
+    private var quizzesAdapter = QuizzesAdapter(quizDone) { question : Question -> partItemClicked(question) }
+
+    private var currentLevel : Level = Level(snapshot = null)
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLevel2Binding.inflate(inflater, container, false)
         return binding.root
@@ -47,26 +56,23 @@ class Level2 : Fragment() {
 
 
     private fun initViews() {
+        currentLevel = LevelsViewModel.getLevel("2")!!
+        quizzesAdapter = QuizzesAdapter(currentLevel.questions) { question : Question -> partItemClicked(question) }
         //Initialize the recycler view with a linear layout manager, adapter
         binding.rvAnswers.layoutManager =
-                LinearLayoutManager(
-                        this.context, RecyclerView.VERTICAL, false
-                )
+            LinearLayoutManager(
+                this.context, RecyclerView.VERTICAL, false
+            )
         binding.rvAnswers.adapter = quizzesAdapter
         binding.rvAnswers.addItemDecoration(
-                DividerItemDecoration(
-                        this.context,
-                        DividerItemDecoration.VERTICAL
-                )
+            DividerItemDecoration(
+                this.context,
+                DividerItemDecoration.VERTICAL
+            )
         )
 
-        for (i in Quizzes.LEVEL2QUESTIONS.indices) {
-            quizzes.add(
-                    Quiz(
-                            Quizzes.LEVEL2QUESTIONS[i],
-                            Quizzes.LEVEL2ANSWERS[i]
-                    )
-            )
+        if (LevelsViewModel.getLevel("2") == null){
+            Log.d("tag", "IK BEN NUL")
         }
         Answer().attachToRecyclerView(rvAnswers)
         setRandomQuestion()
@@ -77,9 +83,9 @@ class Level2 : Fragment() {
         val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)  {
             // Enables or Disables the ability to move items up and down.
             override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
             ): Boolean {
                 return false
             }
@@ -88,14 +94,16 @@ class Level2 : Fragment() {
                 val position = viewHolder.adapterPosition
                 if (position == quizIndex) {
                     setRandomQuestion()
-                    viewModel.updateResultLevel2(position  ,true)
-
-                    Snackbar.make(questionNumber, "Goedzo! Ga zo door!" + quizzes.get(position).toString(), Snackbar.LENGTH_LONG)
-                            .show()
+                    currentLevel.questions.get(position).done = true
+                    LevelsViewModel.updateQuestion(currentLevel.questions.get(position), currentLevel.id)
+                    currentLevel.progress += ceil( 100.0 /currentLevel.questions.size).toInt()
+                    LevelsViewModel.updateLevel(currentLevel)
+                    Snackbar.make(questionNumber, "Goedzo! Ga zo door!" + currentLevel.questions.get(position).toString(), Snackbar.LENGTH_LONG)
+                        .show()
                     vibratePhone()
                 } else {
                     Snackbar.make(questionNumber, "Fout! Probeer het nog eens!", Snackbar.LENGTH_SHORT)
-                            .show()
+                        .show()
                 }
                 quizzesAdapter.notifyDataSetChanged()
             }
@@ -103,19 +111,25 @@ class Level2 : Fragment() {
         return ItemTouchHelper(callback)
     }
 
+
+
     private fun setRandomQuestion() {
-        val quizInt = (Random.nextInt(0,quizzes.size))
-        if(quizDone.contains(quizzes[quizInt])){
-            setRandomQuestion()
+        val quizInt = (Random.nextInt(0,currentLevel.questions.size))
+        if(quizDone.contains(currentLevel.questions[quizInt])){
+            if(quizDone.size != currentLevel.questions.size){
+                setRandomQuestion()
+            } else {
+                QuizDoneAlert()
+            }
         } else {
             quizIndex = quizInt
-            binding.questionNumber.text = quizzes.get(quizIndex).questionText.toString()
-            quizDone.add(quizzes.get(quizIndex))
+            binding.questionNumber.text =  currentLevel.questions.get(quizIndex).question.toString()
+            quizDone.add(currentLevel.questions.get(quizIndex))
         }
     }
 
     fun Fragment.vibratePhone() {
-        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        val vibrator = this.context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT >= 26) {
             vibrator.vibrate(VibrationEffect.createOneShot(400, 255))
         } else {
@@ -123,8 +137,30 @@ class Level2 : Fragment() {
         }
     }
 
-    private fun partItemClicked(quiz: Quiz) {
+    private fun partItemClicked(quiz: Question) {
         Snackbar.make(questionNumber, "Swipe naar links of naar rechts, als je denkt dat het antwoord goed is!", Snackbar.LENGTH_SHORT)
-                .show()
+            .show()
+    }
+
+    private fun QuizDoneAlert(){
+        // build alert dialog
+        val dialogBuilder = AlertDialog.Builder(this.context)
+
+        // set message of alert dialog
+        dialogBuilder.setMessage("Weet je zeker dat je je vooruitgang wilt verwijderen?")
+            // if the dialog is cancelable
+            .setCancelable(false)
+            // positive button text and action
+            .setPositiveButton("Ga naar volgende level", DialogInterface.OnClickListener {
+                    dialog, id -> findNavController().navigate(R.id.nav_slideshow)
+            })
+
+        // create dialog box
+        val alert = dialogBuilder.create()
+        // set title for alert dialog box
+        alert.setTitle("Begin opnieuw")
+        // show alert dialog
+        alert.show()
     }
 }
+

@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.anatomieapp.Quizzes.LevelsViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +24,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+
+        LevelsViewModel.getAllLevels()
 
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)

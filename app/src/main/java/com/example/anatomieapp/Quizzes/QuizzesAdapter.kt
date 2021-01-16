@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.anatomieapp.R
 import com.example.anatomieapp.databinding.ItemAnswerBinding
 
-class QuizzesAdapter(private val quizzes: List<Quiz>, private val clickListener: (Quiz) -> Unit) :
+class QuizzesAdapter(private val quizzes: List<Question>, private val clickListener: (Question) -> Unit) :
         RecyclerView.Adapter<QuizzesAdapter.ViewHolder>() {
 
 
@@ -15,8 +15,8 @@ class QuizzesAdapter(private val quizzes: List<Quiz>, private val clickListener:
 
         val binding = ItemAnswerBinding.bind(itemView)
 
-        fun databind(quiz: Quiz, clickListener: (Quiz) -> Unit) {
-                binding.itemAnswer.text = quiz.questionAnswer
+        fun databind(quiz: Question, clickListener: (Question) -> Unit) {
+                binding.itemAnswer.text = quiz.answer
                 itemView.setOnClickListener {clickListener(quiz)}
         }
     }

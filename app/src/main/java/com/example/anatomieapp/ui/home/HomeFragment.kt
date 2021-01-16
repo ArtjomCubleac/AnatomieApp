@@ -5,27 +5,22 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+
 import com.example.anatomieapp.Quizzes.*
 import com.example.anatomieapp.R
 import com.example.anatomieapp.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.util.*
 
+class HomeFragment() : Fragment(), Observer {
 
-class HomeFragment() : Fragment() {
-
-    private  val homeViewModel: HomeViewModel by viewModels()
-    private val results = arrayListOf<Results>()
     private lateinit var binding: FragmentHomeBinding
-    private val resultsAdapter = ResultsAdapter(results)
-
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -40,21 +35,9 @@ class HomeFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.root.setBackgroundColor(Color.WHITE);
         initViews()
-        observeResults()
     }
 
     private fun initViews() {
-        binding.rvResults.layoutManager =
-            LinearLayoutManager(
-                this.context, RecyclerView.VERTICAL, false
-            )
-        binding.rvResults.adapter = resultsAdapter
-        binding.rvResults.addItemDecoration(
-            DividerItemDecoration(
-                this.context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
 
         val fab: View = binding.floatingActionButton
         fab.setOnClickListener { view ->
@@ -81,36 +64,46 @@ class HomeFragment() : Fragment() {
             // show alert dialog
             alert.show()
         }
+        LevelsViewModel.addObserver(this)
     }
 
     private fun accepted(){
-    }
-
-    private fun observeResults() {
-        homeViewModel.results.observe(viewLifecycleOwner, { results ->
-            this.results.clear()
-            this.results.addAll(results)
-            loadProgressBar()
-            resultsAdapter.notifyDataSetChanged()
-        })
+        for(level in LevelsViewModel.getAllLevels()){
+            for(question in level.questions){
+                question.done = false
+                LevelsViewModel.updateQuestion(question, level.id)
+            }
+            level.progress = 0
+            LevelsViewModel.updateLevel(level)
+        }
     }
 
     private fun loadProgressBar(){
-        progressBarLevel1.max= 15
-        var currentGoed = 0;
-        for (item in this.results){
-            if (item.quizProgress == true){
-                currentGoed++;
+        progressBarLevel1.max= 100
+        progressBarLevel2.max = 100
+
+        for (level in LevelsViewModel.getAllLevels()){
+
+            when (level.id){
+                "1" ->   ObjectAnimator.ofInt(progressBarLevel1,"progress", level.progress.toInt()).setDuration(700).start()
+                "2" ->   ObjectAnimator.ofInt(progressBarLevel2,"progres1", level.progress.toInt()).setDuration(700).start()
             }
         }
-        when(currentGoed){
-            0 -> binding.updateMotivation.text = homeViewModel.updateMotivation(R.string.motivation1.toString());
-            1,2,3,4,5,6,7 -> binding.updateMotivation.text = homeViewModel.updateMotivation(R.string.motivation2.toString());
-        }
-
-        ObjectAnimator.ofInt(progressBarLevel1,"progress", currentGoed).setDuration(700).start()
-
-
     }
+    override fun update(o: Observable?, arg: Any?) {
+       loadProgressBar()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        loadProgressBar()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadProgressBar()
+    }
+
+
 }
 
