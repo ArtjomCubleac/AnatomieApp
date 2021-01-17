@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "523989764128",
+    "project_id": "anatomieapp-87c54",
+    "storage_bucket": "anatomieapp-87c54.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523989764128:android:2f17433c1a93bf783ad445",
+        "android_client_info": {
+          "package_name": "com.example.anatomieapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523989764128-k1bn07sea9th6gtuqagn936mtsl39jke.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9q7wkJYD8cEaJdT4QKk9D4O-33efgl_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "523989764128-k1bn07sea9th6gtuqagn936mtsl39jke.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
