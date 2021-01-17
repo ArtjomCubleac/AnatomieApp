@@ -22,6 +22,9 @@
     <string name="next_level">Ga naar volgend level</string>
     <string name="level_congratulations">Level Gehaald!</string>
     <string name="click_alert">Swipe naar links of naar rechts, als je denkt dat het antwoord goed is!</string>
-    <string name="progress_text_text">Voortang:</string>
+    <string name="progress_text_text">Voortgang:</string>
+    <string name="motivation_0">Je bent nog niet begonnen aan deze level</string>
+    <string name="motivation_mid">je bent op de helft, ga zo door!</string>
+    <string name="motivation_100">Level afgerond!</string>
 
 </resources>

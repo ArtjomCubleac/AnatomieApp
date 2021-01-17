@@ -9,11 +9,11 @@
             android:icon="@drawable/app_icon_white"
             android:title="Home Pagina" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_level1"
             android:icon="@drawable/bone"
             android:title="@string/level_1_menu" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_level2"
             android:icon="@drawable/skull"
             android:title="@string/level_2_menu" />
     </group>

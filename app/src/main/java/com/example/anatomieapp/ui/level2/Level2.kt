@@ -7,12 +7,10 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -20,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anatomieapp.Quizzes.*
 import com.example.anatomieapp.R
-import com.example.anatomieapp.databinding.FragmentLevel1Binding
 import com.example.anatomieapp.databinding.FragmentLevel2Binding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_level2.questionNumber
@@ -33,7 +30,6 @@ import kotlin.random.Random
 
 class Level2 : Fragment() {
 
-    private val quizzes = arrayListOf<Question>()
     private lateinit var binding: FragmentLevel2Binding
     private var quizIndex = 0
     private val quizDone = arrayListOf<Question>()
@@ -140,14 +136,13 @@ class Level2 : Fragment() {
     private fun QuizDoneAlert(){
         // build alert dialog
         val dialogBuilder = AlertDialog.Builder(this.context)
-
         // set message of alert dialog
         dialogBuilder.setMessage(R.string.level_completed)
             // if the dialog is cancelable
             .setCancelable(false)
             // positive button text and action
             .setPositiveButton(R.string.next_level, DialogInterface.OnClickListener {
-                    dialog, id -> findNavController().navigate(R.id.nav_slideshow)
+                    dialog, id -> findNavController().navigate(R.id.nav_level2)
             })
 
         // create dialog box

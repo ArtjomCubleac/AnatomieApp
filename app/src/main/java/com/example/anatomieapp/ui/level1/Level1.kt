@@ -8,12 +8,10 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -149,7 +147,7 @@ private fun setRandomQuestion() {
                 .setCancelable(false)
                 // positive button text and action
                 .setPositiveButton(R.string.next_level, DialogInterface.OnClickListener {
-                    dialog, id -> findNavController().navigate(R.id.nav_slideshow)
+                    dialog, id -> findNavController().navigate(R.id.nav_level2)
                 })
         // create dialog box
         val alert = dialogBuilder.create()

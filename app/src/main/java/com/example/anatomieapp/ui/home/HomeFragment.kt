@@ -18,6 +18,8 @@ import java.util.*
 class HomeFragment() : Fragment(), Observer {
 
     private lateinit var binding: FragmentHomeBinding
+    private var MAX = 100;
+    private var ZERO = 0;
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -32,7 +34,6 @@ class HomeFragment() : Fragment(), Observer {
         super.onViewCreated(view, savedInstanceState)
         binding.root.setBackgroundColor(Color.WHITE);
         initViews()
-
     }
 
     private fun initViews() {
@@ -52,7 +53,6 @@ class HomeFragment() : Fragment(), Observer {
                 .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener {
                         dialog, id -> dialog.cancel()
                 })
- 
             // create dialog box
             val alert = dialogBuilder.create()
             // set title for alert dialog box
@@ -75,32 +75,41 @@ class HomeFragment() : Fragment(), Observer {
     }
 
     private fun loadProgressBar(){
-        progressBarLevel1.max= 100
-        progressBarLevel2.max = 100
+        progressBarLevel1.max = MAX
+        progressBarLevel2.max = MAX
 
         for (level in LevelsViewModel.getAllLevels()){
             when (level.id){
-                "1" ->   ObjectAnimator.ofInt(progressBarLevel1,"progress", level.progress.toInt()).setDuration(700).start()
-                "2" ->   ObjectAnimator.ofInt(progressBarLevel2,"progress", level.progress.toInt()).setDuration(700).start()
-            }
+                "1" ->   {ObjectAnimator.ofInt(progressBarLevel1,"progress", level.progress.toInt()).setDuration(700).start();
+                    if (level.progress.toInt() == ZERO){
+                        progress_text.text = getString(R.string.motivation_0)
+                    } else if (level.progress.toInt() in 51..99){
+                        progress_text.text = getString(R.string.motivation_mid)
+                    } else if (level.progress.toInt() > MAX){
+                        progress_text.text = getString(R.string.motivation_100)
+                    }
+                }
+                "2" ->   {ObjectAnimator.ofInt(progressBarLevel2,"progress", level.progress.toInt()).setDuration(700).start()
+                if (level.progress.toInt() == ZERO){
+                    progress_text2.text = getString(R.string.motivation_0)
+                } else if (level.progress.toInt() in 51..99){
+                    progress_text2.text = getString(R.string.motivation_mid)
+                } else if (level.progress.toInt() > MAX){
+                    progress_text2.text = getString(R.string.motivation_100)
+                }
+            }}
         }
     }
-
         override fun update(o: Observable?, arg: Any?) {
             loadProgressBar()
         }
-
         override fun onStart() {
             super.onStart()
             loadProgressBar()
-
         }
-
         override fun onResume() {
             super.onResume()
             loadProgressBar()
         }
     }
-
-
 
