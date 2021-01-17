@@ -14,7 +14,7 @@
             android:title="@string/level_1_menu" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/skull"
             android:title="@string/level_2_menu" />
     </group>
 </menu>

@@ -71,9 +71,6 @@ class Level2 : Fragment() {
             )
         )
 
-        if (LevelsViewModel.getLevel("2") == null){
-            Log.d("tag", "IK BEN NUL")
-        }
         Answer().attachToRecyclerView(rvAnswers)
         setRandomQuestion()
     }
@@ -98,11 +95,11 @@ class Level2 : Fragment() {
                     LevelsViewModel.updateQuestion(currentLevel.questions[position], currentLevel.id)
                     currentLevel.progress += ceil( 100.0 /currentLevel.questions.size).toInt()
                     LevelsViewModel.updateLevel(currentLevel)
-                    Snackbar.make(questionNumber, "Goedzo! Ga zo door!" + currentLevel.questions[position].toString(), Snackbar.LENGTH_LONG)
+                    Snackbar.make(questionNumber, R.string.goodjob, Snackbar.LENGTH_LONG)
                         .show()
                     vibratePhone()
                 } else {
-                    Snackbar.make(questionNumber, "Fout! Probeer het nog eens!", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(questionNumber, R.string.try_again, Snackbar.LENGTH_SHORT)
                         .show()
                 }
                 quizzesAdapter.notifyDataSetChanged()
@@ -110,8 +107,6 @@ class Level2 : Fragment() {
         }
         return ItemTouchHelper(callback)
     }
-
-
 
     private fun setRandomQuestion() {
         val quizInt = (Random.nextInt(0,currentLevel.questions.size))
@@ -138,7 +133,7 @@ class Level2 : Fragment() {
     }
 
     private fun partItemClicked(quiz: Question) {
-        Snackbar.make(questionNumber, "Swipe naar links of naar rechts, als je denkt dat het antwoord goed is!", Snackbar.LENGTH_SHORT)
+        Snackbar.make(questionNumber, R.string.click_alert, Snackbar.LENGTH_SHORT)
             .show()
     }
 
@@ -147,18 +142,18 @@ class Level2 : Fragment() {
         val dialogBuilder = AlertDialog.Builder(this.context)
 
         // set message of alert dialog
-        dialogBuilder.setMessage("Weet je zeker dat je je vooruitgang wilt verwijderen?")
+        dialogBuilder.setMessage(R.string.level_completed)
             // if the dialog is cancelable
             .setCancelable(false)
             // positive button text and action
-            .setPositiveButton("Ga naar volgende level", DialogInterface.OnClickListener {
+            .setPositiveButton(R.string.next_level, DialogInterface.OnClickListener {
                     dialog, id -> findNavController().navigate(R.id.nav_slideshow)
             })
 
         // create dialog box
         val alert = dialogBuilder.create()
         // set title for alert dialog box
-        alert.setTitle("Begin opnieuw")
+        alert.setTitle(R.string.level_congratulations)
         // show alert dialog
         alert.show()
     }

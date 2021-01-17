@@ -1,10 +1,7 @@
 package com.example.anatomieapp.Quizzes
 
-import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import java.io.Serializable
-import java.lang.Exception
-import java.security.Key
 
 class Level  (snapshot: DataSnapshot?) : Serializable {
     var id = ""
