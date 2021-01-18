@@ -3,7 +3,9 @@ package com.example.anatomieapp.Quizzes
 import com.google.firebase.database.DataSnapshot
 import java.io.Serializable
 
+//In this class the Firebase Realtime Database data for a Level  gets retrieved
 class Level  (snapshot: DataSnapshot?) : Serializable {
+    //FireBase does not store Integer only Longs and Strings
     var id = ""
     var questions = ArrayList<Question>()
     var progress: Long = 0

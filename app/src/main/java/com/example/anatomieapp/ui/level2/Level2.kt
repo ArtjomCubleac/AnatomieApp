@@ -142,7 +142,7 @@ class Level2 : Fragment() {
             .setCancelable(false)
             // positive button text and action
             .setPositiveButton(R.string.next_level, DialogInterface.OnClickListener {
-                    dialog, id -> findNavController().navigate(R.id.nav_level2)
+                    dialog, id -> findNavController().navigate(R.id.nav_home)
             })
 
         // create dialog box

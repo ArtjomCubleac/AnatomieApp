@@ -2,7 +2,6 @@
     <string name="app_name">AnatomieApp</string>
     <string name="nav_header_title">Aan de slag!</string>
     <string name="nav_header_subtitle">Zie hieronder alle levels</string>
-
     <string name="menu_home">Home</string>
     <string name="welcome_text">Welkom bij de Anatomie App!</string>
     <string name="splash_screen_info_text">Gemaakt door AC App Development 2021</string>
@@ -11,7 +10,7 @@
     <string name="level_1_menu">Level 1</string>
     <string name="level_2_menu">Level 2</string>
     <string name="wat_is_nummer">Wat is nummer</string>
-    <string name="homescreen_subtitle">Oefen je kennis van het menselijke lichaam!</string>
+    <string name="homescreen_subtitle">Oefen je kennis van het menselijke lichaam! \n Volg hieronder je voortgang</string>
     <string name="start_again">Begin opnieuw</string>string>
     <string name="cancel">Annuleer</string>string>
     <string name="confirmation">Ja, ik weet het zeker!</string>string>
@@ -23,8 +22,7 @@
     <string name="level_congratulations">Level Gehaald!</string>
     <string name="click_alert">Swipe naar links of naar rechts, als je denkt dat het antwoord goed is!</string>
     <string name="progress_text_text">Voortgang:</string>
-    <string name="motivation_0">Je bent nog niet begonnen aan deze level</string>
+    <string name="motivation_0">Je bent nog niet begonnen aan dit level</string>
     <string name="motivation_mid">je bent op de helft, ga zo door!</string>
     <string name="motivation_100">Level afgerond!</string>
-
 </resources>
