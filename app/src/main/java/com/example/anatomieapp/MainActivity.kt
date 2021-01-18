@@ -24,11 +24,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
+        //This saves the realtime database data to the local disk
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         LevelsViewModel.getAllLevels()
-
-        //Firebase.database.setPersistenceEnabled(true)
-
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)

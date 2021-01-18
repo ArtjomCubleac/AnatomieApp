@@ -18,7 +18,9 @@ import java.util.*
 class HomeFragment() : Fragment(), Observer {
 
     private lateinit var binding: FragmentHomeBinding
+    //Used for tracking progress
     private var MAX = 100;
+    //Used for tracking progress
     private var ZERO = 0;
 
     override fun onCreateView(
@@ -35,8 +37,13 @@ class HomeFragment() : Fragment(), Observer {
         binding.root.setBackgroundColor(Color.WHITE);
         initViews()
     }
-
+    //Used for fab onclick handling adding an observer for the LevelsViewModel
     private fun initViews() {
+        fabClickListener()
+        LevelsViewModel.addObserver(this)
+    }
+
+    private fun fabClickListener(){
         val fab: View = binding.deleteAll
         fab.setOnClickListener { view ->
             // build alert dialog
@@ -60,9 +67,9 @@ class HomeFragment() : Fragment(), Observer {
             // show alert dialog
             alert.show()
         }
-        LevelsViewModel.addObserver(this)
     }
 
+    //If the user accpets the fab (deleting al progress), all the questions progress will be set to false and the level progress to 0
     private fun accepted(){
         for(level in LevelsViewModel.getAllLevels()){
             for(question in level.questions){
@@ -74,10 +81,13 @@ class HomeFragment() : Fragment(), Observer {
         }
     }
 
+    //This function sets the progress bar on the home screen
     private fun loadProgressBar(){
+        //Variables used from above
         progressBarLevel1.max = MAX
         progressBarLevel2.max = MAX
 
+        //This function sets the motivational quote of the progress bar
         for (level in LevelsViewModel.getAllLevels()){
             when (level.id){
                 "1" ->   {ObjectAnimator.ofInt(progressBarLevel1,"progress", level.progress.toInt()).setDuration(700).start();
@@ -100,7 +110,8 @@ class HomeFragment() : Fragment(), Observer {
             }}
         }
     }
-        override fun update(o: Observable?, arg: Any?) {
+    //Functions that are for the observable
+    override fun update(o: Observable?, arg: Any?) {
             loadProgressBar()
         }
         override fun onStart() {

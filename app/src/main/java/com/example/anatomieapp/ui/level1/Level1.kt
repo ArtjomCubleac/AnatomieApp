@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,7 +50,7 @@ class Level1 : Fragment() {
         initViews()
     }
 
-
+    //Fills the recyclerView with questions
     private fun initViews() {
         currentLevel = LevelsViewModel.getLevel("1")!!
         quizzesAdapter = QuizzesAdapter(currentLevel.questions) { question : Question-> partItemClicked(question) }
@@ -65,11 +66,32 @@ class Level1 : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
-
         Answer().attachToRecyclerView(rvAnswers)
         setRandomQuestion()
     }
+    //Method for setting random questions
+    private fun setRandomQuestion() {
+        //Random quizInt with the size of max 15
+        val quizInt = (Random.nextInt(0,currentLevel.questions.size))
+        //If the answer is wrong
+        if(quizDone.contains(currentLevel.questions[quizInt])) {
+            if (quizDone.size != currentLevel.questions.size) {
+                setRandomQuestion()
+            } else {
+                QuizDoneAlert()
+            }
+        } else if (currentLevel.questions[quizInt].done){
+            quizDone.add(currentLevel.questions[quizInt])
+            setRandomQuestion()
+        //If the answer is right
+        } else {
+            quizIndex = quizInt
+            binding.questionNumber.text =  currentLevel.questions[quizIndex].question.toString()
+            quizDone.add(currentLevel.questions[quizIndex])
+        }
+    }
 
+    //Method for checking answer,updating progress
      private fun Answer(): ItemTouchHelper {
             //Creates touchhelper which enables swiping left or right.
             val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)  {
@@ -92,8 +114,8 @@ class Level1 : Fragment() {
                         LevelsViewModel.updateLevel(currentLevel)
                         Snackbar.make(questionNumber, R.string.goodjob , Snackbar.LENGTH_SHORT)
                             .show()
-                        vibratePhone()
                     } else {
+                        vibratePhone()
                     Snackbar.make(questionNumber, R.string.try_again, Snackbar.LENGTH_SHORT)
                          .show()
                     }
@@ -102,26 +124,6 @@ class Level1 : Fragment() {
             }
             return ItemTouchHelper(callback)
         }
-
-
-
-private fun setRandomQuestion() {
-      val quizInt = (Random.nextInt(0,currentLevel.questions.size))
-        if(quizDone.contains(currentLevel.questions[quizInt])) {
-            if (quizDone.size != currentLevel.questions.size) {
-                setRandomQuestion()
-            } else {
-                QuizDoneAlert()
-            }
-        } else if (currentLevel.questions[quizInt].done){
-            quizDone.add(currentLevel.questions[quizInt])
-            setRandomQuestion()
-        } else {
-            quizIndex = quizInt
-            binding.questionNumber.text =  currentLevel.questions[quizIndex].question.toString()
-            quizDone.add(currentLevel.questions[quizIndex])
-        }
-    }
 
     fun Fragment.vibratePhone() {
         val vibrator = this.context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator

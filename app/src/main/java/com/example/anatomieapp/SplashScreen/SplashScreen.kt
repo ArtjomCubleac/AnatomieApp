@@ -7,7 +7,7 @@ import android.os.Handler
 import com.example.anatomieapp.MainActivity
 import com.example.anatomieapp.R
 
-
+//Splash screen
 class SplashScreen : AppCompatActivity() {
     // This is the loading time of the splash screen
     private val SPLASH_TIME_OUT:Long = 500 // 1 sec
